@@ -4,7 +4,7 @@
 
 > 视频来源：https://www.bilibili.com/video/BV1S14y1r74v
 
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=788494845&bvid=BV1S14y1r74v&cid=1264741362&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+[![自动检测更新【渡一教育】](https://i1.hdslb.com/bfs/archive/b3b1fcdf9fe2a861b696ee89ba798dc766e906c1.jpg)](https://player.bilibili.com/player.html?isOutside=true&aid=788494845&bvid=BV1S14y1r74v&cid=1264741362&p=1)
 
 这样的做法虽然说比较通用，但是分析整个 `index.html` 可能不是很好的做法，即使首页入口文件不复杂。如上面这个视频的一个评论说的：
 
