@@ -6,8 +6,6 @@
 
 [![自动检测更新【渡一教育】](https://i1.hdslb.com/bfs/archive/b3b1fcdf9fe2a861b696ee89ba798dc766e906c1.jpg)](https://player.bilibili.com/player.html?isOutside=true&aid=788494845&bvid=BV1S14y1r74v&cid=1264741362&p=1)
 
-<video src="./自动检测更新【渡一教育】.mp4" controls preload></video>
-
 这样的做法虽然说比较通用，但是分析整个 `index.html` 可能不是很好的做法，即使首页入口文件不复杂。如上面这个视频的一个评论说的：
 
 > 我也遇到了这么个需求，因为是公司内部用的系统，所以不需要考虑流量，带宽问题。我的解决思路和老师的一样，定时请求。我是在vite中写了个自定义方法，每次打包时自动生成一个版本文件.json（就是个时间戳），然后在页面上定时请求这个json文件对比内容，不一致时提示用户刷新。
