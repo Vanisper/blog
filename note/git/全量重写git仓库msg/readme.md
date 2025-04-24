@@ -22,6 +22,10 @@
 > - https://www.kaggle.com/code/eliasdabbas/how-to-create-a-python-regex-to-extract-emoji/notebook
 > - https://gist.github.com/Alex-Just/e86110836f3f93fe7932290526529cd1
 > - https://gist.github.com/Saluev/604c9c3a3d6032770e15a0da143f73bd
+> - https://gist.github.com/jaymollica/cf179e0facabbb4ec8cf9e69804b7cb1
+> - https://www.regextester.com/106421
+> - https://nekonull.me/share/build-emoji-regex/
+> - https://stackoverflow.com/a/26740753/26849265
 >
 > 一些关于字符编码的工具站：
 > - https://www.compart.com/en/unicode/U+1F300

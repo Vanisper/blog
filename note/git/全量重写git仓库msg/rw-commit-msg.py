@@ -14,10 +14,31 @@ class CommitMsgResult(TypedDict):
     emoji_right: Optional[str]
     raw: re.Match[str]
 
+
+# /(\ud83c[\udf00-\udfff])|(\ud83d[\udc00-\ude4f\ude80-\udeff])|[\u2600-\u2B55]/ // 这个是网上常见的回答，但是不完全
+# /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/ // 这个是有很多冗余
+# https://www.regextester.com/106421
+# https://nekonull.me/share/build-emoji-regex/
+# https://stackoverflow.com/a/26740753/26849265
+# ---
 # Python 正则表达式，js 中组合式 Unicode 的写法在 python 需要转换
-# \ud83c[\udf00-\udfff] => [\U0001F300-\U0001F5FF]
-# \ud83d[\udc00-\ude4f\ude80-\udeff] => [\U0001F600-\U0001F64F\U0001F680-\U0001F6FF]
-commit_msg_pattern = r"^((?P<emoji_left>(?::\w*:|[\U0001F300-\U0001F5FF]|[\U0001F600-\U0001F64F\U0001F680-\U0001F6FF]|[\u2600-\u2B55]))\s*)?(?P<type>\w+)(?:\((?P<scope>[^)]*)\))?!?:\s*((?P<emoji_center>(?::\w*:|[\U0001F300-\U0001F5FF]|[\U0001F600-\U0001F64F\U0001F680-\U0001F6FF]|[\u2600-\u2B55]))\s*)?(?P<subject>(?:(?!#).)*(?:(?!\s).))(?:\s(?P<ticket>#(?P<ticket_number1>\w+)|\(#(?P<ticket_number2>\w+)\)))?(?:\s(?P<emoji_right>(?::\w*:|[\U0001F300-\U0001F5FF]|[\U0001F600-\U0001F64F\U0001F680-\U0001F6FF]|[\u2600-\u2B55])))?$"
+# ---
+# [\u2600-\u2B55]  => [\U00002600-\U00002B55] (基础符号)
+# ---
+# \ud83c[\udde0-\uddff] => [\U0001F1E0-\U0001F1FF]  # 国旗（iOS区域指示符组合）
+# \ud83c[\udf00-\udfff] => [\U0001F300-\U0001F5FF] (颜色/图形符号)
+# ---
+# \ud83d[\ude00-\ude4f] => [\U0001F600-\U0001F64F] (表情符号)
+# \ud83d[\ude80-\udeff] => [\U0001F680-\U0001F6FF] (交通工具/地图符号)
+# \ud83d[\udf00-\udf7f] => [\U0001F700-\U0001F77F]  # 炼金术符号
+# \ud83d[\udf80-\udfff] => [\U0001F780-\U0001F7FF]  # 几何图形扩展
+# ---
+# \ud83e[\udc00-\udcff] => [\U0001F800-\U0001F8FF]  # 补充箭头-C
+# \ud83e[\udd00-\uddff] => [\U0001F900-\U0001F9FF] (补充物品/脸谱)
+# \ud83e[\ude00-\ude6f] => [\U0001FA00-\U0001FA6F]  # 棋类符号（需与上一行范围重叠）
+# \ud83e[\ude70-\udeff] => [\U0001FA70-\U0001FAFF] (运动/工具/扩展符号)
+# ---
+commit_msg_pattern = r"^((?P<emoji_left>(?::\w*:|[\U0001F1E0-\U0001F1FF]|[\U0001F300-\U0001F5FF]|[\U0001F600-\U0001F64F]|[\U0001F680-\U0001F6FF]|[\U0001F700-\U0001F77F]|[\U0001F780-\U0001F7FF]|[\U0001F800-\U0001F8FF]|[\U0001F900-\U0001F9FF]|[\U0001FA00-\U0001FA6F]|[\U0001FA70-\U0001FAFF]))\s*)?(?P<type>\w+)(?:\((?P<scope>[^)]*)\))?!?:\s*((?P<emoji_center>(?::\w*:|[\U0001F1E0-\U0001F1FF]|[\U0001F300-\U0001F5FF]|[\U0001F600-\U0001F64F]|[\U0001F680-\U0001F6FF]|[\U0001F700-\U0001F77F]|[\U0001F780-\U0001F7FF]|[\U0001F800-\U0001F8FF]|[\U0001F900-\U0001F9FF]|[\U0001FA00-\U0001FA6F]|[\U0001FA70-\U0001FAFF]))\s*)?(?P<subject>(?:(?!#).)*(?:(?!\s).))(?:\s(?P<ticket>#(?P<ticket_number1>\w+)|\(#(?P<ticket_number2>\w+)\)))?(?:\s(?P<emoji_right>(?::\w*:|[\U0001F1E0-\U0001F1FF]|[\U0001F300-\U0001F5FF]|[\U0001F600-\U0001F64F]|[\U0001F680-\U0001F6FF]|[\U0001F700-\U0001F77F]|[\U0001F780-\U0001F7FF]|[\U0001F800-\U0001F8FF]|[\U0001F900-\U0001F9FF]|[\U0001FA00-\U0001FA6F]|[\U0001FA70-\U0001FAFF])))?$"
 
 def parse_commit_msg(commit_msg: str) -> Optional[CommitMsgResult]:
     match = re.match(commit_msg_pattern, commit_msg, re.M)
