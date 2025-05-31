@@ -1,4 +1,4 @@
-from typing import Optional, TypedDict
+from typing import TYPE_CHECKING, Optional, TypedDict
 import re
 from git_filter_repo import Commit
 
@@ -93,11 +93,9 @@ def move_emoji_to_left(commit_msg: str) -> str:
 
     return commit_msg
 
-# def callback(commit: Commit, _):
-#     msg = commit.message.decode("utf-8")
-#     commit.message = move_emoji_to_left(msg).encode("utf-8")
-
-if __name__ == 'builtins':
-    commit: Commit
+def run(commit: Commit):
     msg = commit.message.decode("utf-8")
     commit.message = move_emoji_to_left(msg).encode("utf-8")
+
+if __name__ == 'builtins':
+    run(commit) # type: ignore[reportUnboundVariable]
