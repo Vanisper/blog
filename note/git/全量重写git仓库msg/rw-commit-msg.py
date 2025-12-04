@@ -93,6 +93,28 @@ def move_emoji_to_left(commit_msg: str) -> str:
 
     return commit_msg
 
+# 修改 git scope
+def change_scope(commit_msg: str, target: str, to: str) -> str:
+    parsed_result = parse_commit_msg(commit_msg)
+    if not parsed_result:
+        return commit_msg  # 返回原始的 msg 如果没有匹配成功
+    scope = parsed_result["scope"]
+    if not scope:
+        return commit_msg
+
+    if scope != target:
+        return commit_msg
+
+    match = parsed_result["raw"]
+    scope_start = match.start("scope")
+    scope_end = match.end("scope")
+
+    if to:
+        return commit_msg[:scope_start] + to + commit_msg[scope_end:]
+
+    # return commit_msg[:scope_start - 1] + commit_msg[scope_end + 1:] # 空值时，删除 scope
+    return commit_msg
+
 def run(commit: Commit):
     msg = commit.message.decode("utf-8")
     commit.message = move_emoji_to_left(msg).encode("utf-8")
